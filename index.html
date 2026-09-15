@@ -317,7 +317,7 @@ function iniciarAplicacao(){
 
 function p2(){
   digitando(1100, ()=>{
-    bolha('Entendi. E há quanto tempo você atua nessa área?','in');
+    bolha('Legal! E há quanto tempo você atua nessa área?','in');
     status.textContent = 'Aplicação — pergunta 2 de 4';
     esperarTexto(p3);
   });
@@ -325,7 +325,7 @@ function p2(){
 
 function p3(){
   digitando(1100, ()=>{
-    bolha('Certo. Qual foi o seu faturamento no ano passado?','in');
+    bolha('Show. Agora me conta qual foi o faturamento da sua operação no ano passado? Pode ser uma média aproximada, não precisa ser o valor exato.','in');
     status.textContent = 'Aplicação — pergunta 3 de 4';
     esperarTexto(p4);
   });
@@ -333,7 +333,7 @@ function p3(){
 
 function p4(){
   digitando(1100, ()=>{
-    bolha('Obrigada. Para fechar: o que você construiu na sua trajetória que teria valor para ensinar em uma mentoria?','in');
+    bolha('O Flávio, o Joel e o Caio gostam de conhecer cada pessoa antes. Me conta um pouco da sua trajetória e do que você já construiu que teria valor pra ensinar numa mentoria?','in');
     status.textContent = 'Aplicação — pergunta 4 de 4';
     esperarTexto(fim);
   });
@@ -341,7 +341,7 @@ function p4(){
 
 function fim(){
   digitando(1400, ()=>{
-    bolha('Prontinho, Ana! Sua aplicação está registrada.\n\nEla passa agora por análise e, se for aprovada, um dos nossos líderes entra em contato com você por aqui.','in');
+    bolha('Sua aplicação foi registrada e agora vai passar pela análise do nosso time.\n\nSe o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui. Muito obrigada por compartilhar sua história comigo. Um abraço!','in');
     status.textContent = 'Aplicação concluída ✓';
   });
 }
