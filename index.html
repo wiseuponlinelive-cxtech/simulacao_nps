@@ -287,37 +287,31 @@ function detalhes(){
   status.textContent = 'Interessado — recebendo detalhes';
   digitando(1500, ()=>{
     bolha(
-      'A Formação é conduzida pelos três: Joel Jota cuida da parte de produto e metodologia, como estruturar a sua mentoria e precificar. Caio Carneiro traz vendas e captação. E Flávio Augusto fecha com escala, como crescer em ticket, recorrência e margem.\n\nSão 2 dias presenciais com eles, mais uma plataforma com cerca de 40h de conteúdo, Q&As quinzenais ao vivo e material didático.\n\nO acesso é por candidatura. A Márcia, nossa especialista, faz 4 perguntas rápidas sobre a sua trajetória e a sua aplicação segue para análise.\n\nPosso te passar para ela agora?',
-      'in',
-      [
-        { label:'Quero me candidatar', acao:iniciarAplicacao },
-        { label:'Agora não', acao:recusouAplicacao }
-      ]
+      'A Formação é conduzida pelos três: Joel, Caio e Flávio.\n\nÉ composta por reuniões presenciais, plataforma com bastante conteúdo e muito mais.\n\nPara dar prosseguimento, vou te passar para a Márcia, acessora da Formação, que te perguntará algumas coisas para ver se fará sentido para você. Ela assumirá esta conversa a partir daqui.\n\nMuito obrigada pela atenção e tenha um excelente dia!',
+      'in'
     );
+    status.textContent = 'Passando para a Márcia (~1 min no real)';
+    setTimeout(iniciarAplicacao, 3500);
   });
 }
 
 /* ---------- 3. Aplicação com a Márcia ---------- */
 
 function iniciarAplicacao(){
-  bolha('Quero me candidatar','out');
   status.textContent = 'Transbordo para a caixa da Márcia';
   digitando(1600, ()=>{
     document.querySelector('.ava').textContent = 'M';
     document.querySelector('.who').childNodes[0].textContent = 'Márcia';
     document.querySelector('.who small').textContent = 'Formação de Mentores';
-    bolha('Oi! Aqui é a Márcia, da Formação de Mentores 😊\n\nA Maria Luísa me passou que você quer se candidatar, que ótimo! Vou fazer só algumas perguntas rápidas pra registrar a sua aplicação.','in');
-    digitando(1200, ()=>{
-      bolha('Pra começar, me conta: qual é a sua profissão e em que área você atua hoje?','in');
-      status.textContent = 'Aplicação — pergunta 1 de 4';
-      esperarTexto(p2);
-    });
+    bolha('Oi! Aqui é a Márcia, acessora da Formação de Mentores 😊\n\nA Maria Luísa me passou o seu contato e vou seguir com você a partir daqui. São algumas perguntas rápidas pra eu entender se a Formação faz sentido pra você.\n\nPra começar, me conta: qual é a sua profissão e em que área você atua hoje?','in');
+    status.textContent = 'Aplicação — pergunta 1 de 4';
+    esperarTexto(p2);
   });
 }
 
 function p2(){
   digitando(1100, ()=>{
-    bolha('Legal! E há quanto tempo você atua nessa área?','in');
+    bolha('Entendi. E há quanto tempo você atua nessa área?','in');
     status.textContent = 'Aplicação — pergunta 2 de 4';
     esperarTexto(p3);
   });
@@ -325,7 +319,7 @@ function p2(){
 
 function p3(){
   digitando(1100, ()=>{
-    bolha('Show. Agora me conta qual foi o faturamento da sua operação no ano passado? Pode ser uma média aproximada, não precisa ser o valor exato.','in');
+    bolha('Certo. Qual foi o seu faturamento no ano passado?','in');
     status.textContent = 'Aplicação — pergunta 3 de 4';
     esperarTexto(p4);
   });
@@ -333,7 +327,7 @@ function p3(){
 
 function p4(){
   digitando(1100, ()=>{
-    bolha('O Flávio, o Joel e o Caio gostam de conhecer cada pessoa antes. Me conta um pouco da sua trajetória e do que você já construiu que teria valor pra ensinar numa mentoria?','in');
+    bolha('Obrigada. Para fechar: o que você construiu na sua trajetória que teria valor para ensinar em uma mentoria?','in');
     status.textContent = 'Aplicação — pergunta 4 de 4';
     esperarTexto(fim);
   });
@@ -341,7 +335,7 @@ function p4(){
 
 function fim(){
   digitando(1400, ()=>{
-    bolha('Sua aplicação foi registrada e agora vai passar pela análise do nosso time.\n\nSe o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui. Muito obrigada por compartilhar sua história comigo. Um abraço!','in');
+    bolha('Prontinho, Ana! Sua aplicação está registrada.\n\nEla passa agora por análise e, se for aprovada, um dos nossos líderes entra em contato com você por aqui.','in');
     status.textContent = 'Aplicação concluída ✓';
   });
 }
@@ -353,14 +347,6 @@ function recusouOferta(){
   status.textContent = 'Recusou a oferta — encerrado';
   digitando(800, ()=>{
     bolha('Sem problemas, Ana. Obrigada pela sua participação no MLS Festival!','in');
-  });
-}
-
-function recusouAplicacao(){
-  bolha('Agora não','out');
-  status.textContent = 'Recusou a aplicação — encerrado';
-  digitando(800, ()=>{
-    bolha('Tudo bem, Ana! Se mudar de ideia, é só me chamar por aqui.','in');
   });
 }
 
