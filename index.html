@@ -92,12 +92,15 @@ function nota(valor,faixa){
     });
     return;
   }
-  digitando(900,()=>{
-    bolha('Aproveitando o nosso contato: a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
-    digitando(1000,()=>{
-      bolha('Quer conhecer os detalhes?','in');
-      status.textContent='Oferta da Formação (responda por texto)';
-      esperarTexto(respostaOferta);
+  digitando(800,()=>{
+    bolha(faixa==='promotor'?'Que bom, Ana! Fico muito feliz que tenha curtido o Festival. Obrigada pela nota!':'Obrigada pela nota, Ana! É muito bom saber da sua opinião.','in');
+    digitando(1200,()=>{
+      bolha('Aproveitando o nosso contato: a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
+      digitando(1000,()=>{
+        bolha('Quer conhecer os detalhes?','in');
+        status.textContent='Oferta da Formação (responda por texto)';
+        esperarTexto(respostaOferta);
+      });
     });
   });
 }
@@ -118,21 +121,24 @@ function respostaOferta(txt){
 
 function ofertaSim(jaRespondeu){
   status.textContent='Explicando + iniciando aplicação';
-  digitando(1400,()=>{
-    bolha('A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Tem encontro presencial com os três, plataforma com bastante conteúdo e muito mais.','in');
+  digitando(900,()=>{
+    bolha('Que bom que você se interessou!','in');
     digitando(1400,()=>{
-      bolha('Vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você.','in');
-      digitando(1100,()=>{
-        bolha('Pra começar, qual é a sua profissão e a área em que você atua hoje?','in');
-        status.textContent='Aplicação — pergunta 1 de 3';
-        esperarTexto(p2);
+      bolha('A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Tem encontro presencial com os três, plataforma com bastante conteúdo e muito mais.','in');
+      digitando(1300,()=>{
+        bolha('Agora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você.','in');
+        digitando(1000,()=>{
+          bolha('Pra começar, qual é a sua profissão e a área em que você atua hoje?','in');
+          status.textContent='Aplicação — pergunta 1 de 3';
+          esperarTexto(p2);
+        });
       });
     });
   });
 }
-function p2(){digitando(1000,()=>{bolha('Entendi. E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
+function p2(){digitando(1000,()=>{bolha('Que legal conhecer um pouco do seu trabalho! E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
 function p3(){digitando(1000,()=>{
-  bolha('Agora, pra entender melhor o momento do seu negócio, me conta uma média aproximada do faturamento no último ano?','in');
+  bolha('Show, obrigada por contar! Agora, pra entender melhor o momento do seu negócio, me conta uma média aproximada do faturamento no último ano?','in');
   digitando(1000,()=>{
     bolha('Pode ser um valor aproximado e, caso não queira informar, é só me avisar que seguimos e finalizamos.','in');
     status.textContent='Aplicação — pergunta 3 de 3 (faturamento)';
@@ -140,9 +146,12 @@ function p3(){digitando(1000,()=>{
   });
 });}
 function fim(){
-  digitando(1400,()=>{
-    bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
-    status.textContent='Aplicação concluída ✓';
+  digitando(1000,()=>{
+    bolha('Perfeito, obrigada por compartilhar comigo!','in');
+    digitando(1300,()=>{
+      bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
+      status.textContent='Aplicação concluída ✓';
+    });
   });
 }
 
