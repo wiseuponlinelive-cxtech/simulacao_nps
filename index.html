@@ -80,19 +80,22 @@ function nota(valor,faixa){
   bolha(valor,'out');
   status.textContent='Nota '+valor+' — '+faixa;
   if(faixa==='detrator'){
-    digitando(1100,()=>{
-      bolha('Obrigada por compartilhar, Ana. Sinto muito que a experiência não tenha sido como você esperava.','in');
-      digitando(1200,()=>{
-        bolha('Para a gente entender melhor o que pode ter acontecido, vou te conectar com uma pessoa do nosso time, que vai te ouvir com calma por aqui. Obrigada pela sua sinceridade!','in');
-        status.textContent='Detrator — transbordo para humano';
+    digitando(1000,()=>{
+      bolha('Poxa, sinto muito que não tenha sido como você esperava.','in');
+      digitando(1000,()=>{
+        bolha('Vou te conectar com uma pessoa do nosso time pra entender melhor o que aconteceu, tudo bem?','in');
+        digitando(1000,()=>{
+          bolha('Obrigada pela sua sinceridade!','in');
+          status.textContent='Detrator — transbordo para humano';
+        });
       });
     });
     return;
   }
   digitando(900,()=>{
-    bolha(faixa==='promotor'?'Que bom, Ana! Obrigada pela sua nota.':'Obrigada pela sua nota, Ana!','in');
-    digitando(1400,()=>{
-      bolha('Aproveitando o nosso contato: a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.\n\nQuer conhecer os detalhes?','in');
+    bolha('Aproveitando o nosso contato: a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
+    digitando(1000,()=>{
+      bolha('Quer conhecer os detalhes?','in');
       status.textContent='Oferta da Formação (responda por texto)';
       esperarTexto(respostaOferta);
     });
@@ -108,34 +111,38 @@ function respostaOferta(txt){
   if(negativo && !positivo){ ofertaNao(true); return; }
   // ambiguo: pergunta de novo de forma leve
   digitando(900,()=>{
-    bolha('Só pra confirmar: quer que eu te explique como funciona e já começar a sua aplicação?','in');
+    bolha('Só pra confirmar: quer que eu te explique como funciona e a gente já começar?','in');
     esperarTexto(respostaOferta);
   });
 }
 
 function ofertaSim(jaRespondeu){
   status.textContent='Explicando + iniciando aplicação';
-  digitando(1500,()=>{
-    bolha('A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência.','in');
-    digitando(1300,()=>{
-      bolha('Tem encontro presencial com os três, plataforma com bastante conteúdo e muito mais.','in');
-      digitando(1200,()=>{
-        bolha('Como o acesso é por aplicação, vou te fazer algumas perguntas rápidas. Pra começar, qual é a sua profissão e a área em que você atua hoje?','in');
-        status.textContent='Aplicação — pergunta 1 de 4';
+  digitando(1400,()=>{
+    bolha('A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Tem encontro presencial com os três, plataforma com bastante conteúdo e muito mais.','in');
+    digitando(1400,()=>{
+      bolha('Vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você.','in');
+      digitando(1100,()=>{
+        bolha('Pra começar, qual é a sua profissão e a área em que você atua hoje?','in');
+        status.textContent='Aplicação — pergunta 1 de 3';
         esperarTexto(p2);
       });
     });
   });
 }
-function p2(){digitando(1100,()=>{bolha('Entendi. E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 4';esperarTexto(p3);});}
-function p3(){digitando(1100,()=>{bolha('Certo. Pra entender melhor o momento do seu negócio, me conta uma média do faturamento da sua operação no último ano? Pode ser um valor aproximado, não precisa ser exato. Caso não queira, é só me avisar que seguimos e finalizamos a sua aplicação.','in');status.textContent='Aplicação — pergunta 3 de 3 (faturamento)';esperarTexto(fim);});}
+function p2(){digitando(1000,()=>{bolha('Entendi. E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
+function p3(){digitando(1000,()=>{
+  bolha('Agora, pra entender melhor o momento do seu negócio, me conta uma média aproximada do faturamento no último ano?','in');
+  digitando(1000,()=>{
+    bolha('Pode ser um valor aproximado e, caso não queira informar, é só me avisar que seguimos e finalizamos.','in');
+    status.textContent='Aplicação — pergunta 3 de 3 (faturamento)';
+    esperarTexto(fim);
+  });
+});}
 function fim(){
   digitando(1400,()=>{
-    bolha('Sua aplicação foi registrada e agora vai passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.','in');
-    digitando(1100,()=>{
-      bolha('Agradeço demais pela conversa e desejo muito sucesso. Um abraço!','in');
-      status.textContent='Aplicação concluída ✓';
-    });
+    bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
+    status.textContent='Aplicação concluída ✓';
   });
 }
 
@@ -143,7 +150,10 @@ function fim(){
 function ofertaNao(jaRespondeu){
   status.textContent='Recusou a oferta';
   digitando(900,()=>{
-    bolha('Sem problemas, Ana! Quando fizer sentido pra você, é só me chamar por aqui que seguimos com a sua aplicação. Obrigada pela conversa e um abraço!','in');
+    bolha('Sem problemas, Ana! Quando fizer sentido, é só me chamar por aqui que a gente segue.','in');
+    digitando(900,()=>{
+      bolha('Obrigada pela conversa e um abraço!','in');
+    });
   });
 }
 document.getElementById('restart').onclick=()=>{thread.innerHTML='';composer.hidden=true;aoResponder=null;t=0;status.textContent='Pesquisa NPS (disparo)';disparo();};
