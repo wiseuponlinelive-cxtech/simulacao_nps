@@ -95,7 +95,7 @@ function nota(valor,faixa){
   digitando(800,()=>{
     bolha(faixa==='promotor'?'Que bom, Ana! Fico muito feliz que tenha curtido o Festival. Obrigada pela nota!':'Obrigada pela nota, Ana! É muito bom saber da sua opinião.','in');
     digitando(1200,()=>{
-      bolha('Aproveitando o nosso contato: a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
+      bolha('Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
       digitando(1000,()=>{
         bolha('Quer conhecer os detalhes?','in');
         status.textContent='Oferta da Formação (responda por texto)';
@@ -136,18 +136,18 @@ function ofertaSim(jaRespondeu){
     });
   });
 }
-function p2(){digitando(1000,()=>{bolha('Que legal conhecer um pouco do seu trabalho! E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
+function p2(){digitando(1000,()=>{bolha('Bacana. E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
 function p3(){digitando(1000,()=>{
-  bolha('Show, obrigada por contar! Agora, pra entender melhor o momento do seu negócio, me conta uma média aproximada do faturamento no último ano?','in');
+  bolha('Certo. Pra entender o momento do seu negócio, me conta uma média aproximada do faturamento no último ano?','in');
   digitando(1000,()=>{
-    bolha('Pode ser um valor aproximado e, caso não queira informar, é só me avisar que seguimos e finalizamos.','in');
+    bolha('Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.','in');
     status.textContent='Aplicação — pergunta 3 de 3 (faturamento)';
     esperarTexto(fim);
   });
 });}
 function fim(){
   digitando(1000,()=>{
-    bolha('Perfeito, obrigada por compartilhar comigo!','in');
+    bolha('Perfeito!','in');
     digitando(1300,()=>{
       bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
       status.textContent='Aplicação concluída ✓';
