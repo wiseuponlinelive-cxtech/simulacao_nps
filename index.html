@@ -145,9 +145,11 @@ function p3(){digitando(1000,()=>{
     esperarTexto(fim);
   });
 });}
-function fim(){
+function fim(txt){
+  const s = (txt||'').toLowerCase();
+  const recusou = /(prefiro não|prefiro nao|não quero|nao quero|não vou|nao vou|não posso|nao posso|não informo|nao informo|não avisar|nao avisar|melhor não|melhor nao|prefiro guardar|não gosto|nao gosto|sigilo|confidencial|pular|passa|próxima|proxima)/.test(s) && !/[0-9]/.test(s);
   digitando(1000,()=>{
-    bolha('Perfeito!','in');
+    bolha(recusou?'Sem problemas!':'Perfeito!','in');
     digitando(1300,()=>{
       bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
       status.textContent='Aplicação concluída ✓';
