@@ -3,172 +3,879 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Simulação — Márcia (NPS + Formação)</title>
+<title>Simulação — NPS MLS Festival</title>
 <style>
-  :root{--wa-bg:#0b141a;--wa-header:#202c33;--wa-in:#202c33;--wa-out:#005c4b;--wa-text:#e9edef;--wa-text-dim:#8696a0;--wa-link:#53bdeb;--wa-green:#00a884;}
+  :root{
+    --ink:#e8ecef;
+    --ink-2:#a3adb8;
+    --ink-3:#6f7a86;
+    --line:#2b333c;
+    --bg:#11161b;
+    --card:#181f26;
+    --card-2:#1e262e;
+    --accent:#1fb894;
+    --accent-soft:#16332e;
+    --danger:#e2726a;
+    --warn-bg:#2b2517;
+    --warn-line:#4a3f21;
+    --warn-ink:#d9bc72;
+    --shadow:0 10px 32px rgba(0,0,0,.4);
+    --wa-bg:#0b141a;
+    --wa-header:#202c33;
+    --wa-in:#202c33;
+    --wa-out:#005c4b;
+    --wa-text:#e9edef;
+    --wa-dim:#8696a0;
+    --wa-link:#53bdeb;
+    --wa-line:#2a3942;
+    --wa-green:#00a884;
+  }
+  html[data-theme="claro"]{
+    --ink:#1a1d21;
+    --ink-2:#5b636d;
+    --ink-3:#8b949e;
+    --line:#e3e6ea;
+    --bg:#f4f6f8;
+    --card:#ffffff;
+    --card-2:#fafbfc;
+    --accent:#0a7c68;
+    --accent-soft:#e7f4f1;
+    --danger:#b4443c;
+    --warn-bg:#fdf6e7;
+    --warn-line:#e8d9ad;
+    --warn-ink:#7a5c12;
+    --shadow:0 10px 32px rgba(15,25,35,.16);
+  }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;background:#d9dbd4;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px 16px;}
-  .frame{width:100%;max-width:400px;background:var(--wa-bg);border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.28);display:flex;flex-direction:column;height:min(780px,calc(100vh - 48px));}
-  .top{background:var(--wa-header);padding:14px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
-  .ava{width:38px;height:38px;border-radius:50%;background:var(--wa-green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;font-weight:600;flex-shrink:0;}
-  .who{color:var(--wa-text);font-size:15px;font-weight:500;line-height:1.3}
-  .who small{display:block;color:var(--wa-text-dim);font-size:12px;font-weight:400;margin-top:1px}
-  .thread{flex:1;overflow-y:auto;padding:16px 12px 8px;display:flex;flex-direction:column;gap:8px;}
-  .msg{max-width:84%;padding:8px 11px 6px;border-radius:8px;font-size:14.2px;line-height:1.45;color:var(--wa-text);white-space:pre-line;animation:pop .18s ease-out;}
-  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    transition:background .2s,color .2s;
+  }
+  .topbar{
+    background:var(--card);border-bottom:1px solid var(--line);
+    padding:14px 24px;display:flex;align-items:center;justify-content:space-between;
+    gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:10;
+  }
+  .marca{min-width:0}
+  .topbar h1{font-size:15px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+  .topbar p{font-size:12.5px;color:var(--ink-3);margin-top:1px}
+  .acts{display:flex;gap:8px;flex-wrap:wrap}
+  button{font-family:inherit;cursor:pointer}
+  .bt{
+    border:1px solid var(--line);background:var(--card);color:var(--ink);
+    font-size:13.5px;font-weight:500;padding:8px 15px;border-radius:10px;
+    transition:border-color .15s,background .15s;
+  }
+  .bt:hover{border-color:var(--ink-3);background:var(--card-2)}
+  .bt-main{background:var(--accent);border-color:var(--accent);color:#08231d;font-weight:600}
+  .bt-main:hover{filter:brightness(1.08)}
+  html[data-theme="claro"] .bt-main{color:#fff}
+  .icone{
+    border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+    width:36px;height:36px;border-radius:10px;font-size:15px;
+    display:inline-flex;align-items:center;justify-content:center;
+    transition:border-color .15s,color .15s,background .15s;
+  }
+  .icone:hover{border-color:var(--ink-3);color:var(--ink);background:var(--card-2)}
+  .wrap{
+    display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:20px;
+    padding:20px 24px 40px;align-items:start;max-width:1320px;margin:0 auto;
+  }
+  @media (max-width:980px){
+    .wrap{grid-template-columns:1fr}
+    .preview-col{position:static !important}
+  }
+  .panel{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:14px;overflow:hidden;
+    transition:background .2s,border-color .2s;
+  }
+  .panel + .panel{margin-top:16px}
+  .panel > h2{
+    font-size:13px;font-weight:600;padding:13px 18px;
+    border-bottom:1px solid var(--line);display:flex;align-items:center;gap:9px;
+  }
+  .num{
+    width:19px;height:19px;border-radius:50%;
+    background:var(--accent-soft);color:var(--accent);
+    font-size:11px;font-weight:700;
+    display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .panel[data-off] > h2{color:var(--ink-3)}
+  .panel[data-off] > h2 .num{background:var(--bg);color:var(--ink-3)}
+  .panel[data-off] .body{display:none}
+  .body{padding:16px 18px}
+  .fld{margin-bottom:15px}
+  .fld:last-child{margin-bottom:0}
+  .fld label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-2);margin-bottom:5px}
+  .fld .hint{font-weight:400;color:var(--ink-3);font-size:12px}
+  input[type=text],textarea{
+    width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+    background:var(--bg);
+    border:1px solid var(--line);border-radius:8px;padding:9px 11px;
+    line-height:1.55;resize:vertical;
+    transition:border-color .15s,box-shadow .15s,background .2s;
+  }
+  html[data-theme="claro"] input[type=text],
+  html[data-theme="claro"] textarea{background:var(--card)}
+  input[type=text]:focus,textarea:focus{
+    outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+  @media (max-width:560px){.row2,.row3{grid-template-columns:1fr}}
+
+  .aviso{
+    background:var(--warn-bg);border:1px solid var(--warn-line);
+    color:var(--warn-ink);font-size:12.5px;line-height:1.5;
+    padding:10px 12px;border-radius:9px;margin-bottom:15px;
+  }
+  .aviso b{font-weight:600}
+
+  .sw{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+  .sw input{position:absolute;opacity:0;width:0;height:0}
+  .sw i{
+    display:block;
+    width:38px;height:22px;border-radius:11px;background:var(--line);
+    position:relative;flex-shrink:0;transition:background .18s;
+  }
+  .sw i::after{
+    content:'';position:absolute;top:3px;left:3px;
+    width:16px;height:16px;border-radius:50%;background:#fff;
+    transition:transform .18s;box-shadow:0 1px 3px rgba(0,0,0,.2);
+  }
+  .sw input:checked + i{background:var(--accent)}
+  .sw input:checked + i::after{transform:translateX(16px)}
+  .sw input:focus-visible + i{outline:2px solid var(--accent);outline-offset:2px}
+  .sw span{font-size:13px;color:var(--ink-2)}
+
+  .item{
+    border:1px solid var(--line);border-radius:9px;
+    padding:11px 12px;margin-bottom:9px;background:var(--card-2);
+  }
+  .item-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
+  .item-top span{font-size:12.5px;font-weight:600;color:var(--ink-2)}
+  .rm{
+    border:none;background:none;color:var(--ink-3);
+    font-size:12.5px;padding:3px 7px;border-radius:6px;
+    transition:color .15s,background .15s;
+  }
+  .rm:hover{color:var(--danger);background:var(--accent-soft)}
+  .add{
+    width:100%;border:1px dashed var(--line);background:none;
+    color:var(--accent);font-size:13px;font-weight:500;
+    padding:9px;border-radius:9px;transition:border-color .15s,background .15s;
+  }
+  .add:hover{border-color:var(--accent);background:var(--accent-soft)}
+  .add:disabled{color:var(--ink-3);cursor:not-allowed;border-style:solid}
+  .add:disabled:hover{border-color:var(--line);background:none}
+  .vazio{font-size:12.5px;color:var(--ink-3);padding:4px 0 10px}
+
+  .preview-col{position:sticky;top:78px}
+  .phone{
+    background:var(--wa-bg);border-radius:26px;overflow:hidden;
+    box-shadow:var(--shadow);
+    border:1px solid var(--line);
+    display:flex;flex-direction:column;height:min(680px,calc(100vh - 140px));
+  }
+  .ph-top{background:var(--wa-header);padding:13px 15px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+  .ava{
+    width:36px;height:36px;border-radius:50%;background:var(--wa-green);color:#fff;
+    font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .ph-who{color:var(--wa-text);font-size:14.5px;font-weight:500;line-height:1.25;min-width:0}
+  .ph-who small{display:block;color:var(--wa-dim);font-size:11.5px;font-weight:400;margin-top:1px}
+  .thread{flex:1;overflow-y:auto;padding:14px 11px 8px;display:flex;flex-direction:column;gap:7px}
+  .msg{
+    max-width:85%;padding:7px 10px 5px;border-radius:8px;
+    font-size:13.6px;line-height:1.45;color:var(--wa-text);
+    white-space:pre-line;word-break:break-word;animation:pop .17s ease-out;
+  }
+  @keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
   .in{background:var(--wa-in);align-self:flex-start;border-top-left-radius:2px}
   .out{background:var(--wa-out);align-self:flex-end;border-top-right-radius:2px}
-  .hr{font-size:10.5px;color:var(--wa-text-dim);text-align:right;margin-top:3px}
+  .hr{font-size:10px;color:var(--wa-dim);text-align:right;margin-top:2px}
   .out .hr{color:rgba(233,237,239,.6)}
-  .btns{border-top:1px solid rgba(134,150,160,.25);margin-top:7px;padding-top:5px;display:flex;flex-direction:column;gap:2px;}
-  .btn{background:none;border:none;color:var(--wa-link);font-size:14px;font-family:inherit;padding:8px;border-radius:6px;cursor:pointer;width:100%;transition:background .12s;}
-  .btn:hover{background:rgba(83,189,235,.1)}
-  .typing{align-self:flex-start;background:var(--wa-in);padding:11px 14px;border-radius:8px;border-top-left-radius:2px;display:flex;gap:4px;}
-  .typing i{width:6px;height:6px;border-radius:50%;background:var(--wa-text-dim);animation:bob 1.1s infinite;}
-  .typing i:nth-child(2){animation-delay:.18s}.typing i:nth-child(3){animation-delay:.36s}
+  .btns{
+    border-top:1px solid rgba(134,150,160,.25);margin-top:6px;padding-top:4px;
+    display:flex;flex-direction:column;gap:1px;
+  }
+  .wbtn{
+    background:none;border:none;color:var(--wa-link);font-size:13.4px;
+    font-family:inherit;padding:7px;border-radius:6px;width:100%;transition:background .12s;
+  }
+  .wbtn:hover{background:rgba(83,189,235,.1)}
+  .typing{
+    align-self:flex-start;background:var(--wa-in);padding:10px 13px;
+    border-radius:8px;border-top-left-radius:2px;display:flex;gap:4px;
+  }
+  .typing i{width:5.5px;height:5.5px;border-radius:50%;background:var(--wa-dim);animation:bob 1.1s infinite}
+  .typing i:nth-child(2){animation-delay:.18s}
+  .typing i:nth-child(3){animation-delay:.36s}
   @keyframes bob{0%,60%,100%{opacity:.35;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
-  .composer{background:var(--wa-header);padding:8px 12px;display:flex;gap:8px;align-items:center;flex-shrink:0;border-top:1px solid #2a3942;}
-  .composer input{flex:1;background:#2a3942;border:none;color:var(--wa-text);font-family:inherit;font-size:14px;padding:10px 14px;border-radius:20px;}
-  .composer input::placeholder{color:var(--wa-text-dim)}
-  .composer input:focus{outline:2px solid var(--wa-green);outline-offset:1px}
-  .composer button{width:38px;height:38px;border-radius:50%;border:none;background:var(--wa-green);color:#0b141a;font-size:17px;cursor:pointer;flex-shrink:0;}
+  .composer{
+    background:var(--wa-header);padding:8px 11px;display:flex;gap:7px;
+    align-items:center;flex-shrink:0;border-top:1px solid var(--wa-line);
+  }
   .composer[hidden]{display:none}
-  .bar{background:#182229;padding:9px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0;}
-  .bar span{color:var(--wa-text-dim);font-size:12.5px}
-  .restart{background:none;border:1px solid #2a3942;color:var(--wa-text-dim);font-family:inherit;font-size:12.5px;padding:6px 12px;border-radius:14px;cursor:pointer;}
-  .restart:hover{border-color:var(--wa-text-dim);color:var(--wa-text)}
-  @media (prefers-reduced-motion:reduce){.msg{animation:none}.typing i{animation:none;opacity:.6}}
+  .composer input{
+    flex:1;background:#2a3942;border:none;color:var(--wa-text);
+    font-family:inherit;font-size:13.5px;padding:9px 13px;border-radius:19px;
+  }
+  .composer input::placeholder{color:var(--wa-dim)}
+  .composer input:focus{outline:2px solid var(--wa-green);outline-offset:1px}
+  .composer button{
+    width:35px;height:35px;border-radius:50%;border:none;
+    background:var(--wa-green);color:#0b141a;font-size:15px;flex-shrink:0;
+  }
+  .ph-bar{
+    background:#182229;padding:8px 13px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:space-between;gap:9px;
+  }
+  .ph-bar span{
+    color:var(--wa-dim);font-size:11.5px;min-width:0;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  }
+  .replay{
+    background:none;border:1px solid var(--wa-line);color:var(--wa-dim);
+    font-family:inherit;font-size:11.5px;padding:5px 11px;border-radius:13px;
+    flex-shrink:0;transition:border-color .15s,color .15s;
+  }
+  .replay:hover{border-color:var(--wa-dim);color:var(--wa-text)}
+  .tip{font-size:12.5px;color:var(--ink-3);margin-top:11px;text-align:center;line-height:1.5}
+  .tema-solto{
+    position:fixed;top:14px;right:14px;z-index:20;
+    width:30px;height:30px;border-radius:50%;
+    border:1px solid var(--line);background:transparent;
+    color:var(--ink-3);font-size:13px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    opacity:.45;transition:opacity .18s,color .18s,border-color .18s;
+  }
+  .tema-solto:hover{opacity:1;color:var(--ink-2);border-color:var(--ink-3)}
+  .tema-solto:focus-visible{opacity:1;outline:2px solid var(--accent);outline-offset:2px}
+  @media (prefers-reduced-motion:reduce){
+    .msg{animation:none}
+    .typing i{animation:none;opacity:.6}
+  }
 </style>
 </head>
 <body>
-<div class="frame">
-  <div class="top"><div class="ava">M</div><div class="who">Márcia<small>Formação de Mentores</small></div></div>
-  <div class="thread" id="thread" aria-live="polite"></div>
-  <form class="composer" id="composer" hidden><input id="campo" placeholder="Digite a sua resposta" autocomplete="off"><button type="submit" aria-label="Enviar">➤</button></form>
-  <div class="bar"><span id="status">Pesquisa NPS (disparo)</span><button class="restart" id="restart">Recomeçar</button></div>
-</div>
-<script>
-const thread=document.getElementById('thread');
-const status=document.getElementById('status');
-const composer=document.getElementById('composer');
-const campo=document.getElementById('campo');
-let t=0, aoResponder=null;
-function hora(min){const b=new Date();b.setHours(10,12+min,0);return b.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});}
-function bolha(texto,lado,botoes){
-  const d=document.createElement('div');d.className='msg '+lado;
-  const p=document.createElement('div');p.textContent=texto;d.appendChild(p);
-  if(botoes){const box=document.createElement('div');box.className='btns';
-    botoes.forEach(b=>{const btn=document.createElement('button');btn.className='btn';btn.textContent=b.label;btn.onclick=()=>{box.remove();b.acao();};box.appendChild(btn);});d.appendChild(box);}
-  const h=document.createElement('div');h.className='hr';h.textContent=hora(t++);d.appendChild(h);
-  thread.appendChild(d);thread.scrollTop=thread.scrollHeight;
-}
-function digitando(ms,depois){const d=document.createElement('div');d.className='typing';d.innerHTML='<i></i><i></i><i></i>';thread.appendChild(d);thread.scrollTop=thread.scrollHeight;setTimeout(()=>{d.remove();depois();},ms);}
-function esperarTexto(cb){composer.hidden=false;campo.focus();aoResponder=cb;}
-composer.onsubmit=e=>{e.preventDefault();const txt=campo.value.trim();if(!txt)return;campo.value='';composer.hidden=true;bolha(txt,'out');const cb=aoResponder;aoResponder=null;if(cb)cb(txt);};
 
-/* ---------- 1. NPS ---------- */
-function disparo(){
-  bolha('Oi, Ana! Aqui é a Márcia, da Formação de Mentores.\n\nJá se passou um mês desde o MLS Festival e a sua opinião ajuda muito a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?','in',
-    [
-      {label:'9 a 10',acao:()=>nota('9 a 10','promotor')},
-      {label:'7 a 8',acao:()=>nota('7 a 8','neutro')},
-      {label:'0 a 6',acao:()=>nota('0 a 6','detrator')}
-    ]);
-  status.textContent='Aguardando nota NPS';
+<div class="topbar">
+  <div class="marca">
+    <h1>Simulador de Réguas</h1>
+    <p>CxTech · Wiser Educação</p>
+  </div>
+  <div class="acts">
+    <button class="icone" id="tema" title="Alternar tema" aria-label="Alternar tema">☾</button>
+    <button class="bt" id="reset">Restaurar</button>
+    <button class="bt bt-main" id="download">Baixar</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div id="editor">
+
+    <div class="panel">
+      <h2><span class="num">1</span> Quem fala e com quem</h2>
+      <div class="body">
+        <div class="row2">
+          <div class="fld">
+            <label>Nome da IA</label>
+            <input type="text" id="ia1nome">
+          </div>
+          <div class="fld">
+            <label>Conta / produto</label>
+            <input type="text" id="ia1conta">
+          </div>
+        </div>
+        <div class="fld">
+          <label>Nome do contato <span class="hint">— use {{nome}} nas mensagens</span></label>
+          <input type="text" id="contato">
+        </div>
+        <div class="fld">
+          <label class="sw">
+            <input type="checkbox" id="temIA2"><i></i>
+            <span>Passar a conversa para uma segunda IA</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="num">2</span> Disparo do template</h2>
+      <div class="body">
+        <div class="aviso">
+          <b>Só o template tem botões.</b> Depois dele, o WhatsApp não permite mais botões — então todas as outras respostas do contato são digitadas.
+        </div>
+        <div class="fld">
+          <label>Mensagem do template</label>
+          <textarea id="template" rows="7"></textarea>
+        </div>
+        <div class="fld">
+          <label>Botões <span class="hint">— até 3; deixe vazio para não usar nenhum</span></label>
+          <div id="listaBtn"></div>
+          <button class="add" id="addBtn" type="button">+ Adicionar botão</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="num">3</span> Resposta ao template</h2>
+      <div class="body">
+        <div class="fld">
+          <label>Se a resposta for positiva <span class="hint">— primeiro botão</span></label>
+          <textarea id="rPos" rows="3"></textarea>
+        </div>
+        <div class="fld">
+          <label>Se a resposta for intermediária <span class="hint">— segundo botão</span></label>
+          <textarea id="rNeu" rows="3"></textarea>
+        </div>
+        <div class="fld">
+          <label>Se a resposta for negativa <span class="hint">— terceiro botão; acolhe e pergunta o que houve</span></label>
+          <textarea id="rNeg" rows="4"></textarea>
+        </div>
+        <div class="fld">
+          <label>Depois que a pessoa contar o que houve <span class="hint">— aqui o fluxo encerra</span></label>
+          <textarea id="rNegFim" rows="4"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="num">4</span> Convite</h2>
+      <div class="body">
+        <div class="aviso">
+          Sem botões aqui. A pergunta precisa estar <b>dentro da mensagem</b>, orientando o contato a responder por escrito.
+        </div>
+        <div class="fld">
+          <label>Mensagem do convite</label>
+          <textarea id="oferta" rows="7"></textarea>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label>Palavras que contam como sim <span class="hint">— separadas por vírgula</span></label>
+            <input type="text" id="kSim">
+          </div>
+          <div class="fld">
+            <label>Palavras que contam como não</label>
+            <input type="text" id="kNao">
+          </div>
+        </div>
+        <div class="fld">
+          <label>Se não reconhecer a resposta</label>
+          <textarea id="rDuvida" rows="2"></textarea>
+        </div>
+        <div class="fld">
+          <label>Se recusar <span class="hint">— aqui o fluxo encerra</span></label>
+          <textarea id="rRecusa" rows="2"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" id="pnlTransicao">
+      <h2><span class="num">5</span> Passagem de bastão</h2>
+      <div class="body">
+        <div class="fld">
+          <label>Mensagem de transição <span class="hint">— última da primeira IA</span></label>
+          <textarea id="detalhe" rows="8"></textarea>
+        </div>
+        <div class="row2">
+          <div class="fld">
+            <label>Nome da segunda IA</label>
+            <input type="text" id="ia2nome">
+          </div>
+          <div class="fld">
+            <label>Conta / produto</label>
+            <input type="text" id="ia2conta">
+          </div>
+        </div>
+        <div class="fld">
+          <label>Intervalo antes de ela entrar <span class="hint">— em segundos, na simulação</span></label>
+          <input type="text" id="espera">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2><span class="num" id="numPerg">6</span> Perguntas e encerramento</h2>
+      <div class="body">
+        <div class="fld">
+          <label id="lblQ1">Primeira mensagem <span class="hint">— apresentação e 1ª pergunta juntas</span></label>
+          <textarea id="q1" rows="6"></textarea>
+        </div>
+        <div class="fld">
+          <label>Perguntas seguintes <span class="hint">— adicione ou remova à vontade</span></label>
+          <div id="listaPerg"></div>
+          <button class="add" id="addPerg" type="button">+ Adicionar pergunta</button>
+        </div>
+        <div class="fld">
+          <label>Mensagem de encerramento</label>
+          <textarea id="fim" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="preview-col">
+    <div class="phone">
+      <div class="ph-top">
+        <div class="ava" id="pAva">ML</div>
+        <div class="ph-who" id="pNome">Maria Luísa
+          <small id="pConta">MLS Festival</small>
+        </div>
+      </div>
+      <div class="thread" id="thread" aria-live="polite"></div>
+      <form class="composer" id="composer" hidden>
+        <input id="campo" placeholder="Digite a sua resposta" autocomplete="off">
+        <button type="submit" aria-label="Enviar">➤</button>
+      </form>
+      <div class="ph-bar">
+        <span id="etapa">Prévia</span>
+        <button class="replay" id="replay">Recomeçar</button>
+      </div>
+    </div>
+    <p class="tip" id="tip">Clique nos botões ou digite as respostas.<br>Qualquer alteração reinicia a prévia.</p>
+  </div>
+
+</div>
+
+<script>
+const SO_SIMULACAO = true;
+const PADRAO = {
+  ia1nome:'Márcia',
+  ia1conta:'MLS Festival',
+  contato:'Stefanie',
+  temIA2:false,
+  template:'Oi, {{nome}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
+  botoes:['9 a 10','7 a 8','0 a 6'],
+  rPos:'Que nota maravilhosa, {{nome}}! Fico muito feliz em saber que sua experiência no MLS Festival foi tão positiva. Obrigada por compartilhar!',
+  rNeu:'Obrigada pela sua nota, {{nome}}! Fico feliz que tenha curtido o Festival.',
+  rNeg:'Sinto muito que a sua experiência no Festival não tenha sido como você esperava, {{nome}}.\n\nO que aconteceu que fez a sua experiência não ser tão boa?',
+  rNegFim:'Obrigada por compartilhar isso comigo, {{nome}}. Sinto muito que tenha sido assim para você.\n\nVou registrar o seu feedback para que a gente possa melhorar nas próximas edições. Espero que numa próxima seja diferente. Um abraço!',
+  oferta:'Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores. Quer conhecer os detalhes?',
+  kSim:'sim, quero, claro, bora, gostaria, pode, vamos, manda, s',
+  kNao:'não, nao, agora não, agora nao, depois, obrigado, obrigada, n',
+  rDuvida:'Só pra eu entender certinho: quer que eu te conte os detalhes agora? Me responde com um sim ou um não 🙌',
+  rRecusa:'Sem problemas, {{nome}}! Quando fizer sentido pra você, é só me chamar por aqui. Sucesso e um abraço!',
+  detalhe:'',
+  espera:'3',
+  ia2nome:'',
+  ia2conta:'',
+  q1:'A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Pra isso, você tem um encontro presencial com os três, uma plataforma com bastante conteúdo e muito mais.\n\nAgora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você. Pra começar, qual é a sua profissão e a área em que você atua hoje?',
+  perguntas:[
+    'E há quanto tempo você atua nessa área?',
+    'Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
+  ],
+  fim:'Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
+};
+const _ORIGINAL = {
+  ia1nome:'Márcia',
+  ia1conta:'MLS Festival',
+  contato:'Stefanie',
+  temIA2:false,
+  template:'Oi, {{nome}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
+  botoes:['9 a 10','7 a 8','0 a 6'],
+  rPos:'Que nota maravilhosa, {{nome}}! Fico muito feliz em saber que sua experiência no MLS Festival foi tão positiva. Obrigada por compartilhar!',
+  rNeu:'Obrigada pela sua nota, {{nome}}! Fico feliz que tenha curtido o Festival.',
+  rNeg:'Sinto muito que a sua experiência no Festival não tenha sido como você esperava, {{nome}}.\n\nO que aconteceu que fez a sua experiência não ser tão boa?',
+  rNegFim:'Obrigada por compartilhar isso comigo, {{nome}}. Sinto muito que tenha sido assim para você.\n\nVou registrar o seu feedback para que a gente possa melhorar nas próximas edições. Espero que numa próxima seja diferente. Um abraço!',
+  oferta:'Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores. Quer conhecer os detalhes?',
+  kSim:'sim, quero, claro, bora, gostaria, pode, vamos, manda, s',
+  kNao:'não, nao, agora não, agora nao, depois, obrigado, obrigada, n',
+  rDuvida:'Só pra eu entender certinho: quer que eu te conte os detalhes agora? Me responde com um sim ou um não 🙌',
+  rRecusa:'Sem problemas, {{nome}}! Quando fizer sentido pra você, é só me chamar por aqui. Sucesso e um abraço!',
+  detalhe:'',
+  espera:'3',
+  ia2nome:'',
+  ia2conta:'',
+  q1:'A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Pra isso, você tem um encontro presencial com os três, uma plataforma com bastante conteúdo e muito mais.\n\nAgora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você. Pra começar, qual é a sua profissão e a área em que você atua hoje?',
+  perguntas:[
+    'E há quanto tempo você atua nessa área?',
+    'Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
+  ],
+  fim:'Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
+};
+
+const MAX_PERG = 9, MAX_BTN = 3;
+const TEXTOS = Object.keys(PADRAO).filter(k => !['botoes','perguntas','temIA2'].includes(k));
+const el = id => document.getElementById(id);
+const modoSimulacao = typeof SO_SIMULACAO !== 'undefined' && SO_SIMULACAO;
+
+let perguntas = [], botoes = [];
+
+function carregar(d){
+  TEXTOS.forEach(k => { if(el(k)) el(k).value = d[k]; });
+  if(el('temIA2')) el('temIA2').checked = !!d.temIA2;
+  perguntas = (d.perguntas || []).slice();
+  botoes = (d.botoes || []).slice();
+  renderPerguntas();
+  renderBotoes();
+  refletirIA2();
 }
-function nota(valor,faixa){
-  bolha(valor,'out');
-  status.textContent='Nota '+valor+' — '+faixa;
-  if(faixa==='detrator'){
-    digitando(1000,()=>{
-      bolha('Poxa, sinto muito que não tenha sido como você esperava.','in');
-      digitando(1000,()=>{
-        bolha('Vou te conectar com uma pessoa do nosso time pra entender melhor o que aconteceu, tudo bem?','in');
-        digitando(1000,()=>{
-          bolha('Obrigada pela sua sinceridade!','in');
-          status.textContent='Detrator — transbordo para humano';
+
+function config(){
+  const o = {};
+  TEXTOS.forEach(k => { o[k] = el(k) ? el(k).value : PADRAO[k]; });
+  o.temIA2 = el('temIA2') ? el('temIA2').checked : PADRAO.temIA2;
+  o.perguntas = perguntas.filter(p => p.trim() !== '');
+  o.botoes = botoes.filter(b => b.trim() !== '');
+  return o;
+}
+
+/* ---------- Listas dinâmicas ---------- */
+
+function lista(alvo, arr, rotulo, addId, max, aoMudar, linhas){
+  const cx = el(alvo);
+  if(!cx) return;
+  cx.innerHTML = '';
+
+  if(!arr.length){
+    const v = document.createElement('p');
+    v.className = 'vazio';
+    v.textContent = 'Nenhum item. O fluxo segue sem esta etapa.';
+    cx.appendChild(v);
+  }
+
+  arr.forEach((valor, i)=>{
+    const box = document.createElement('div');
+    box.className = 'item';
+    const top = document.createElement('div');
+    top.className = 'item-top';
+    const tag = document.createElement('span');
+    tag.textContent = rotulo(i);
+    const rm = document.createElement('button');
+    rm.type = 'button'; rm.className = 'rm'; rm.textContent = 'Remover';
+    rm.onclick = ()=>{ arr.splice(i,1); aoMudar(); agendar(); };
+    top.appendChild(tag); top.appendChild(rm);
+
+    let inp;
+    if(linhas){
+      inp = document.createElement('textarea');
+      inp.rows = linhas;
+    } else {
+      inp = document.createElement('input');
+      inp.type = 'text';
+    }
+    inp.value = valor;
+    inp.oninput = ()=>{ arr[i] = inp.value; agendar(); };
+
+    box.appendChild(top); box.appendChild(inp);
+    cx.appendChild(box);
+  });
+
+  const add = el(addId);
+  add.disabled = arr.length >= max;
+}
+
+function renderPerguntas(){
+  lista('listaPerg', perguntas, i => (i + 2) + 'ª pergunta', 'addPerg', MAX_PERG, renderPerguntas, 2);
+  const add = el('addPerg');
+  add.textContent = add.disabled ? 'Limite de ' + (MAX_PERG + 1) + ' perguntas' : '+ Adicionar pergunta';
+}
+
+function renderBotoes(){
+  const nomes = ['Botão 1 — positivo','Botão 2 — intermediário','Botão 3 — negativo'];
+  lista('listaBtn', botoes, i => nomes[i] || ('Botão ' + (i+1)), 'addBtn', MAX_BTN, renderBotoes, 0);
+  const add = el('addBtn');
+  add.textContent = add.disabled ? 'Limite de 3 botões' : '+ Adicionar botão';
+}
+
+function refletirIA2(){
+  const on = el('temIA2').checked;
+  el('pnlTransicao').toggleAttribute('data-off', !on);
+  el('numPerg').textContent = on ? '6' : '5';
+  el('lblQ1').innerHTML = on
+    ? 'Primeira mensagem <span class="hint">— apresentação e 1ª pergunta juntas</span>'
+    : 'Primeira pergunta <span class="hint">— a mesma IA continua a conversa</span>';
+}
+
+/* ---------- Motor da conversa ---------- */
+
+const thread = el('thread'), composer = el('composer'), campo = el('campo'), etapa = el('etapa');
+let t = 0, aoResponder = null, c = PADRAO, timers = [];
+
+function pausa(ms, fn){ timers.push(setTimeout(fn, ms)); }
+function limparTimers(){ timers.forEach(clearTimeout); timers = []; }
+function txt(s){ return (s || '').replace(/\{\{nome\}\}/g, c.contato || 'você'); }
+
+function iniciais(nome){
+  const p = (nome || '').trim().split(/\s+/).filter(Boolean);
+  if(!p.length) return '–';
+  return (p[0][0] + (p[1] ? p[1][0] : '')).toUpperCase();
+}
+
+function hora(){
+  const d = new Date(); d.setHours(10, 12 + t++, 0);
+  return d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function bolha(texto, lado, botoesMsg){
+  const d = document.createElement('div');
+  d.className = 'msg ' + lado;
+  const p = document.createElement('div');
+  p.textContent = txt(texto);
+  d.appendChild(p);
+  if(botoesMsg && botoesMsg.length){
+    const box = document.createElement('div');
+    box.className = 'btns';
+    botoesMsg.forEach(b=>{
+      const btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'wbtn'; btn.textContent = b.label;
+      btn.onclick = ()=>{ box.remove(); b.acao(); };
+      box.appendChild(btn);
+    });
+    d.appendChild(box);
+  }
+  const h = document.createElement('div');
+  h.className = 'hr'; h.textContent = hora();
+  d.appendChild(h);
+  thread.appendChild(d);
+  thread.scrollTop = thread.scrollHeight;
+}
+
+function digitando(ms, fn){
+  const d = document.createElement('div');
+  d.className = 'typing';
+  d.innerHTML = '<i></i><i></i><i></i>';
+  thread.appendChild(d);
+  thread.scrollTop = thread.scrollHeight;
+  pausa(ms, ()=>{ d.remove(); fn(); });
+}
+
+function esperarTexto(fn){ composer.hidden = false; aoResponder = fn; }
+
+composer.onsubmit = e=>{
+  e.preventDefault();
+  const v = campo.value.trim();
+  if(!v) return;
+  campo.value = ''; composer.hidden = true;
+  bolha(v, 'out');
+  const cb = aoResponder; aoResponder = null;
+  if(cb) cb(v);
+};
+
+function cabecalho(nome, conta){
+  el('pAva').textContent = iniciais(nome);
+  el('pNome').childNodes[0].textContent = (nome || '') + '\n';
+  el('pConta').textContent = conta || '';
+}
+
+function normaliza(s){
+  return (s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s]/g,'').trim();
+}
+function bate(resposta, palavras){
+  const r = normaliza(resposta);
+  return (palavras || '').split(',').map(p => normaliza(p)).filter(Boolean)
+    .some(p => r === p || r.split(/\s+/).includes(p) || r.startsWith(p + ' '));
+}
+
+function rodar(){
+  limparTimers();
+  c = config();
+  t = 0; aoResponder = null;
+  thread.innerHTML = '';
+  composer.hidden = true;
+  cabecalho(c.ia1nome, c.ia1conta);
+  etapa.textContent = 'Disparo do template';
+
+  const mapa = ['pos','neu','neg'];
+  const bts = c.botoes.map((label, i)=>({
+    label,
+    acao:()=>{ bolha(label,'out'); faixa(mapa[i] || 'pos'); }
+  }));
+
+  bolha(c.template, 'in', bts);
+  if(!bts.length) esperarTexto(()=> faixa('pos'));
+}
+
+function faixa(tipo){
+  if(tipo === 'neg'){
+    etapa.textContent = 'Resposta negativa — acolhendo';
+    digitando(1100, ()=>{
+      bolha(c.rNeg, 'in');
+      if(!(c.rNegFim || '').trim()){
+        etapa.textContent = 'Encerrado na resposta negativa';
+        return;
+      }
+      etapa.textContent = 'Aguardando o relato';
+      esperarTexto(()=>{
+        digitando(1400, ()=>{
+          bolha(c.rNegFim, 'in');
+          etapa.textContent = 'Feedback registrado — encerrado';
         });
       });
     });
     return;
   }
-  digitando(800,()=>{
-    bolha(faixa==='promotor'?'Que bom, Ana! Fico muito feliz que tenha curtido o Festival. Obrigada pela nota!':'Obrigada pela nota, Ana! É muito bom saber da sua opinião.','in');
-    digitando(1200,()=>{
-      bolha('Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores.','in');
-      digitando(1000,()=>{
-        bolha('Quer conhecer os detalhes?','in');
-        status.textContent='Oferta da Formação (responda por texto)';
-        esperarTexto(respostaOferta);
+  etapa.textContent = tipo === 'pos' ? 'Resposta positiva' : 'Resposta intermediária';
+  digitando(900, ()=>{
+    bolha(tipo === 'pos' ? c.rPos : c.rNeu, 'in');
+    digitando(1300, ()=>{
+      etapa.textContent = 'Convite enviado — aguardando texto';
+      bolha(c.oferta, 'in');
+      esperarTexto(avaliarConvite);
+    });
+  });
+}
+
+function avaliarConvite(resposta){
+  if(bate(resposta, c.kSim)) return aceitou();
+  if(bate(resposta, c.kNao)) return recusou();
+  etapa.textContent = 'Resposta não reconhecida';
+  digitando(900, ()=>{
+    bolha(c.rDuvida, 'in');
+    esperarTexto(avaliarConvite);
+  });
+}
+
+function aceitou(){
+  etapa.textContent = 'Aceitou o convite';
+  if(!c.temIA2){
+    digitando(1200, ()=>{
+      bolha(c.q1, 'in');
+      etapa.textContent = 'Pergunta 1 de ' + (1 + c.perguntas.length);
+      seguir(0);
+    });
+    return;
+  }
+  digitando(1400, ()=>{
+    bolha(c.detalhe, 'in');
+    const seg = Math.max(0.5, parseFloat(c.espera) || 3);
+    etapa.textContent = 'Aguardando a segunda IA (' + seg + 's)';
+    pausa(seg * 1000, ()=>{
+      etapa.textContent = 'Transbordo para a segunda caixa';
+      digitando(1500, ()=>{
+        cabecalho(c.ia2nome, c.ia2conta);
+        bolha(c.q1, 'in');
+        etapa.textContent = 'Pergunta 1 de ' + (1 + c.perguntas.length);
+        seguir(0);
       });
     });
   });
 }
 
-/* ---------- 2. Oferta aceita -> aplicação ---------- */
-function respostaOferta(txt){
-  const s = txt.toLowerCase();
-  const positivo = /(quero|sim|pode|claro|bora|vamos|gostaria|conhecer|me conta|manda|aceito|com certeza|tenho interesse|interesse)/.test(s);
-  const negativo = /(não|nao|agora não|depois|outro momento|sem interesse|não quero|nao quero|talvez depois)/.test(s);
-  if(positivo && !negativo){ ofertaSim(true); return; }
-  if(negativo && !positivo){ ofertaNao(true); return; }
-  // ambiguo: pergunta de novo de forma leve
-  digitando(900,()=>{
-    bolha('Só pra confirmar: quer que eu te explique como funciona e a gente já começar?','in');
-    esperarTexto(respostaOferta);
-  });
-}
-
-function ofertaSim(jaRespondeu){
-  status.textContent='Explicando + iniciando aplicação';
-  digitando(900,()=>{
-    bolha('Que bom que você se interessou!','in');
-    digitando(1400,()=>{
-      bolha('A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Tem encontro presencial com os três, plataforma com bastante conteúdo e muito mais.','in');
-      digitando(1300,()=>{
-        bolha('Agora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você.','in');
-        digitando(1000,()=>{
-          bolha('Pra começar, qual é a sua profissão e a área em que você atua hoje?','in');
-          status.textContent='Aplicação — pergunta 1 de 3';
-          esperarTexto(p2);
-        });
-      });
-    });
-  });
-}
-function p2(){digitando(1000,()=>{bolha('Bacana. E há quanto tempo você atua nessa área?','in');status.textContent='Aplicação — pergunta 2 de 3';esperarTexto(p3);});}
-function p3(){digitando(1000,()=>{
-  bolha('Certo. Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano?','in');
-  digitando(1000,()=>{
-    bolha('Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.','in');
-    status.textContent='Aplicação — pergunta 3 de 3 (faturamento)';
-    esperarTexto(fim);
-  });
-});}
-function fim(txt){
-  const s = (txt||'').toLowerCase();
-  const recusou = /(prefiro não|prefiro nao|não quero|nao quero|não vou|nao vou|não posso|nao posso|não informo|nao informo|não avisar|nao avisar|melhor não|melhor nao|prefiro guardar|não gosto|nao gosto|sigilo|confidencial|pular|passa|próxima|proxima)/.test(s) && !/[0-9]/.test(s);
-  digitando(1000,()=>{
-    bolha(recusou?'Sem problemas!':'Perfeito!','in');
-    digitando(1300,()=>{
-      bolha('Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço pela conversa e desejo muito sucesso. Um abraço!','in');
-      status.textContent='Aplicação concluída ✓';
+function seguir(i){
+  if(i >= c.perguntas.length){ esperarTexto(encerrar); return; }
+  esperarTexto(()=>{
+    digitando(1100, ()=>{
+      bolha(c.perguntas[i], 'in');
+      etapa.textContent = 'Pergunta ' + (i + 2) + ' de ' + (1 + c.perguntas.length);
+      seguir(i + 1);
     });
   });
 }
 
-/* ---------- Recusa da oferta ---------- */
-function ofertaNao(jaRespondeu){
-  status.textContent='Recusou a oferta';
-  digitando(900,()=>{
-    bolha('Sem problemas, Ana! Quando fizer sentido, é só me chamar por aqui que a gente segue.','in');
-    digitando(900,()=>{
-      bolha('Obrigada pela conversa e um abraço!','in');
-    });
+function recusou(){
+  etapa.textContent = 'Recusou o convite';
+  digitando(800, ()=>{
+    bolha(c.rRecusa, 'in');
+    etapa.textContent = 'Encerrado na recusa';
   });
 }
-document.getElementById('restart').onclick=()=>{thread.innerHTML='';composer.hidden=true;aoResponder=null;t=0;status.textContent='Pesquisa NPS (disparo)';disparo();};
-disparo();
+
+function encerrar(){
+  digitando(1400, ()=>{
+    bolha(c.fim, 'in');
+    etapa.textContent = 'Fluxo concluído ✓';
+  });
+}
+
+/* ---------- Exportação ---------- */
+
+function exportar(){
+  const dados = config();
+  const marcado = document.documentElement.outerHTML
+    .replace(/<title>[^<]*<\/title>/, '<title>Simulação — ' + esc(dados.ia1conta) + '</title>')
+    .replace('const PADRAO = {', 'const SO_SIMULACAO = true;\nconst PADRAO = ' + JSON.stringify(dados) + ';\nconst _ORIGINAL = {');
+  const blob = new Blob(['<!DOCTYPE html>\n' + marcado], {type:'text/html;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'simulacao-' + slug(dados.ia1conta) + '.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function slug(s){
+  return (s || 'whatsapp').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'') || 'whatsapp';
+}
+function esc(s){
+  return (s||'').replace(/[&<>"]/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+}
+
+/* ---------- Arranque ---------- */
+
+let deb;
+function agendar(){ clearTimeout(deb); deb = setTimeout(rodar, 400); }
+
+if(modoSimulacao){
+  const bt = el('tema');
+  if(bt){
+    bt.className = 'tema-solto';
+    bt.removeAttribute('title');
+    document.body.appendChild(bt);
+  }
+  document.querySelector('.topbar').remove();
+  el('editor').remove();
+  const w = document.querySelector('.wrap');
+  w.style.gridTemplateColumns = '400px';
+  w.style.justifyContent = 'center';
+  w.style.paddingTop = '32px';
+  document.querySelector('.preview-col').style.position = 'static';
+  el('tip').textContent = 'Clique nos botões ou digite as respostas.';
+  document.querySelector('.phone').style.height = 'min(720px, calc(100vh - 120px))';
+  perguntas = (PADRAO.perguntas || []).slice();
+  botoes = (PADRAO.botoes || []).slice();
+} else {
+  carregar(PADRAO);
+  TEXTOS.forEach(k=>{
+    const n = el(k);
+    if(n) n.addEventListener('input', agendar);
+  });
+  el('temIA2').addEventListener('change', ()=>{ refletirIA2(); agendar(); });
+  el('addPerg').onclick = ()=>{
+    if(perguntas.length >= MAX_PERG) return;
+    perguntas.push(''); renderPerguntas();
+    const cs = el('listaPerg').querySelectorAll('textarea');
+    if(cs.length) cs[cs.length - 1].focus();
+  };
+  el('addBtn').onclick = ()=>{
+    if(botoes.length >= MAX_BTN) return;
+    botoes.push(''); renderBotoes();
+    const cs = el('listaBtn').querySelectorAll('input');
+    if(cs.length) cs[cs.length - 1].focus();
+  };
+  el('reset').onclick = ()=>{ carregar(PADRAO); rodar(); };
+  el('download').onclick = exportar;
+}
+
+/* ---------- Tema ---------- */
+
+(function(){
+  const bt = el('tema');
+  if(!bt) return;
+  const claroPreferido = window.matchMedia
+    && window.matchMedia('(prefers-color-scheme: light)').matches;
+  aplicar(claroPreferido ? 'claro' : 'escuro');
+  bt.onclick = ()=> aplicar(
+    document.documentElement.getAttribute('data-theme') === 'claro' ? 'escuro' : 'claro'
+  );
+  function aplicar(t){
+    if(t === 'claro') document.documentElement.setAttribute('data-theme','claro');
+    else document.documentElement.removeAttribute('data-theme');
+    bt.textContent = t === 'claro' ? '☾' : '☀';
+  }
+})();
+
+el('replay').onclick = rodar;
+rodar();
 </script>
+
 </body>
 </html>
