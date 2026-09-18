@@ -187,7 +187,18 @@
   }
   .ph-who{color:var(--wa-text);font-size:14.5px;font-weight:500;line-height:1.25;min-width:0}
   .ph-who small{display:block;color:var(--wa-dim);font-size:11.5px;font-weight:400;margin-top:1px}
-  .thread{flex:1;overflow-y:auto;padding:14px 11px 8px;display:flex;flex-direction:column;gap:7px}
+  .thread{
+    flex:1;overflow-y:auto;padding:14px 11px 8px;
+    display:flex;flex-direction:column;gap:7px;
+    scrollbar-width:thin;scrollbar-color:transparent transparent;
+    scroll-behavior:smooth;overscroll-behavior:contain;
+  }
+  .thread:hover{scrollbar-color:rgba(134,150,160,.3) transparent}
+  .thread::-webkit-scrollbar{width:5px}
+  .thread::-webkit-scrollbar-track{background:transparent}
+  .thread::-webkit-scrollbar-thumb{background:transparent;border-radius:3px;transition:background .2s}
+  .thread:hover::-webkit-scrollbar-thumb{background:rgba(134,150,160,.28)}
+  .thread::-webkit-scrollbar-thumb:hover{background:rgba(134,150,160,.5)}
   .msg{
     max-width:85%;padding:7px 10px 5px;border-radius:8px;
     font-size:13.6px;line-height:1.45;color:var(--wa-text);
@@ -293,7 +304,7 @@
           </div>
         </div>
         <div class="fld">
-          <label>Nome do contato <span class="hint">— use {{nome}} nas mensagens</span></label>
+          <label>Nome do contato <span class="hint">— use {{first_name}} ou {{nome}} nas mensagens</span></label>
           <input type="text" id="contato">
         </div>
         <div class="fld">
@@ -449,14 +460,14 @@ const SO_SIMULACAO = true;
 const PADRAO = {
   ia1nome:'Márcia',
   ia1conta:'MLS Festival',
-  contato:'Stefanie',
+  contato:'Francisco',
   temIA2:false,
-  template:'Oi, {{nome}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
+  template:'Oi, {{first_name}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
   botoes:['9 a 10','7 a 8','0 a 6'],
   rPos:'Que nota maravilhosa, {{nome}}! Fico muito feliz em saber que sua experiência no MLS Festival foi tão positiva. Obrigada por compartilhar!',
   rNeu:'Obrigada pela sua nota, {{nome}}! Fico feliz que tenha curtido o Festival.',
   rNeg:'Sinto muito que a sua experiência no Festival não tenha sido como você esperava, {{nome}}.\n\nO que aconteceu que fez a sua experiência não ser tão boa?',
-  rNegFim:'Obrigada por compartilhar isso comigo, {{nome}}. Sinto muito que tenha sido assim para você.\n\nVou registrar o seu feedback para que a gente possa melhorar nas próximas edições. Espero que numa próxima seja diferente. Um abraço!',
+  rNegFim:'Sinto muito por todos esses transtornos, {{nome}}. É realmente frustrante passar por tantas filas e ainda não conseguir aproveitar o conteúdo com o conforto que você esperava.\n\nAgradeço muito pela sua sinceridade ao contar esses detalhes. Seu feedback é fundamental e será registrado para que a gente possa melhorar a organização e a experiência nas próximas edições.\n\nDesejo que em uma próxima oportunidade sua vivência seja muito melhor.',
   oferta:'Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores. Quer conhecer os detalhes?',
   kSim:'sim, quero, claro, bora, gostaria, pode, vamos, manda, s',
   kNao:'não, nao, agora não, agora nao, depois, obrigado, obrigada, n',
@@ -469,21 +480,21 @@ const PADRAO = {
   q1:'A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Pra isso, você tem um encontro presencial com os três, uma plataforma com bastante conteúdo e muito mais.\n\nAgora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você. Pra começar, qual é a sua profissão e a área em que você atua hoje?',
   perguntas:[
     'E há quanto tempo você atua nessa área?',
-    'Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
+    'Entendi, {{nome}}. Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
   ],
-  fim:'Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
+  fim:'Sem problemas, entendo perfeitamente que esse é um dado mais reservado.\n\nSuas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
 };
 const _ORIGINAL = {
   ia1nome:'Márcia',
   ia1conta:'MLS Festival',
-  contato:'Stefanie',
+  contato:'Francisco',
   temIA2:false,
-  template:'Oi, {{nome}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
+  template:'Oi, {{first_name}}! Aqui é a Márcia, do atendimento do MLS Festival.\n\nJá se passou um mês desde o nosso encontro e a sua opinião ajuda muito a MLS a construir as próximas edições.\n\nDe 0 a 10, que nota você dá para o MLS Festival 2026?',
   botoes:['9 a 10','7 a 8','0 a 6'],
   rPos:'Que nota maravilhosa, {{nome}}! Fico muito feliz em saber que sua experiência no MLS Festival foi tão positiva. Obrigada por compartilhar!',
   rNeu:'Obrigada pela sua nota, {{nome}}! Fico feliz que tenha curtido o Festival.',
   rNeg:'Sinto muito que a sua experiência no Festival não tenha sido como você esperava, {{nome}}.\n\nO que aconteceu que fez a sua experiência não ser tão boa?',
-  rNegFim:'Obrigada por compartilhar isso comigo, {{nome}}. Sinto muito que tenha sido assim para você.\n\nVou registrar o seu feedback para que a gente possa melhorar nas próximas edições. Espero que numa próxima seja diferente. Um abraço!',
+  rNegFim:'Sinto muito por todos esses transtornos, {{nome}}. É realmente frustrante passar por tantas filas e ainda não conseguir aproveitar o conteúdo com o conforto que você esperava.\n\nAgradeço muito pela sua sinceridade ao contar esses detalhes. Seu feedback é fundamental e será registrado para que a gente possa melhorar a organização e a experiência nas próximas edições.\n\nDesejo que em uma próxima oportunidade sua vivência seja muito melhor.',
   oferta:'Aproveitando o nosso contato, a ATrinca, do Flávio Augusto, do Joel Jota e do Caio Carneiro, abriu as candidaturas para a Formação de Mentores. Quer conhecer os detalhes?',
   kSim:'sim, quero, claro, bora, gostaria, pode, vamos, manda, s',
   kNao:'não, nao, agora não, agora nao, depois, obrigado, obrigada, n',
@@ -496,9 +507,9 @@ const _ORIGINAL = {
   q1:'A Formação é onde o Flávio, o Joel e o Caio ensinam você a transformar tudo o que já viveu e aprendeu numa mentoria de alto nível, virando referência no que faz. É o programa para quem já tem experiência e quer transformar esse conhecimento numa mentoria estruturada, com método, escala e recorrência. Pra isso, você tem um encontro presencial com os três, uma plataforma com bastante conteúdo e muito mais.\n\nAgora vou te fazer três perguntinhas rápidas para entendermos se faz sentido a Formação de Mentores para você. Pra começar, qual é a sua profissão e a área em que você atua hoje?',
   perguntas:[
     'E há quanto tempo você atua nessa área?',
-    'Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
+    'Entendi, {{nome}}. Pra entender o momento do seu negócio, me conta uma média do faturamento no último ano? Pode ser um valor aproximado e, caso não queira informar, é só me avisar que concluímos por aqui.'
   ],
-  fim:'Suas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
+  fim:'Sem problemas, entendo perfeitamente que esse é um dado mais reservado.\n\nSuas informações foram registradas e agora vão passar pela análise do nosso time. Se o seu perfil for aprovado, um dos líderes do projeto entra em contato com você por aqui.\n\nAgradeço muito pela nossa conversa e desejo muito sucesso nos seus negócios. Um abraço!'
 };
 
 const MAX_PERG = 9, MAX_BTN = 3;
@@ -601,7 +612,9 @@ let t = 0, aoResponder = null, c = PADRAO, timers = [];
 
 function pausa(ms, fn){ timers.push(setTimeout(fn, ms)); }
 function limparTimers(){ timers.forEach(clearTimeout); timers = []; }
-function txt(s){ return (s || '').replace(/\{\{nome\}\}/g, c.contato || 'você'); }
+function txt(s){
+  return (s || '').replace(/\{\{\s*(nome|first_name|name)\s*\}\}/gi, c.contato || 'você');
+}
 
 function iniciais(nome){
   const p = (nome || '').trim().split(/\s+/).filter(Boolean);
@@ -612,6 +625,12 @@ function iniciais(nome){
 function hora(){
   const d = new Date(); d.setHours(10, 12 + t++, 0);
   return d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+}
+
+function descer(){
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{ thread.scrollTop = thread.scrollHeight; });
+  });
 }
 
 function bolha(texto, lado, botoesMsg){
@@ -635,7 +654,7 @@ function bolha(texto, lado, botoesMsg){
   h.className = 'hr'; h.textContent = hora();
   d.appendChild(h);
   thread.appendChild(d);
-  thread.scrollTop = thread.scrollHeight;
+  descer();
 }
 
 function digitando(ms, fn){
@@ -643,7 +662,7 @@ function digitando(ms, fn){
   d.className = 'typing';
   d.innerHTML = '<i></i><i></i><i></i>';
   thread.appendChild(d);
-  thread.scrollTop = thread.scrollHeight;
+  descer();
   pausa(ms, ()=>{ d.remove(); fn(); });
 }
 
